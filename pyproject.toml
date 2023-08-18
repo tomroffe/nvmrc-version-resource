@@ -1,0 +1,76 @@
+[tool.poetry]
+name = "nvmrc_version"
+version = "0.1.0"
+description = "Concourse resource type for emitting the .nvmrc version"
+authors = ["Tom Roffe <tom@altobyte.io>"]
+readme = "README.md"
+repository = "https://github.com/tomroffe/nvmrc-version-resource"
+keywords = ["concourse", "nvmrc", "resource-type"]
+packages = [{include = "nvmrc_version"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic = "^2.0"
+pydantic-settings = "^2.0.1"
+rich = "^13.4.2"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+black = "^23.3.0"
+mypy = "^1.4.1"
+flake8 = "^6.0.0"
+coverage = "^7.2.7"
+pytest-cov = "^4.1.0"
+
+[tool.poetry.scripts]
+in = "nvmrc_version.input:main"
+check = "nvmrc_version.check:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+minversion = "7.4"
+addopts = "-ra -q --cov=nvmrc_version --cov-branch --cov-report html"
+testpaths = [
+    "tests"
+]
+log_cli = true
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s (%(filename)s:%(lineno)s)"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+
+[tool.coverage.run]
+branch = true
+source = ["nvmrc_version"]
+
+[tool.coverage.html]
+show_contexts = true
+
+[tool.mypy]
+plugins = [
+  "pydantic.mypy"
+]
+
+mypy_path = "nvmrc_version"
+follow_imports = "silent"
+check_untyped_defs = true
+disallow_any_generics = true
+ignore_missing_imports = true
+no_implicit_optional = true
+show_error_codes = true
+strict_equality = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+no_implicit_reexport = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+
+[tool.black]
+line-length = 160
