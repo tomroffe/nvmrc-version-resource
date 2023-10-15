@@ -13,6 +13,10 @@ python = "^3.11"
 pydantic = "^2.0"
 pydantic-settings = "^2.0.1"
 rich = "^13.4.2"
+requests = "^2.31.0"
+types-requests = "^2.31.0.7"
+requests-cache = "^1.1.0"
+typer = "^0.9.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"
@@ -21,10 +25,12 @@ mypy = "^1.4.1"
 flake8 = "^6.0.0"
 coverage = "^7.2.7"
 pytest-cov = "^4.1.0"
+testfixtures = "^7.1.0"
 
 [tool.poetry.scripts]
 in = "nvmrc_version.input:main"
 check = "nvmrc_version.check:main"
+fetch = "nvmrc_version.spider:main"
 
 [build-system]
 requires = ["poetry-core"]
@@ -36,14 +42,19 @@ addopts = "-ra -q --cov=nvmrc_version --cov-branch --cov-report html"
 testpaths = [
     "tests"
 ]
-log_cli = true
-log_cli_level = "INFO"
-log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s (%(filename)s:%(lineno)s)"
-log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+
+
 
 [tool.coverage.run]
 branch = true
 source = ["nvmrc_version"]
+
+[tool.coverage.report]
+# Regexes for lines to exclude from consideration
+exclude_also = [
+    # Don't complain if non-runnable code isn't run:
+    "if __name__ == .__main__.:",
+    ]
 
 [tool.coverage.html]
 show_contexts = true
@@ -66,6 +77,7 @@ warn_return_any = true
 warn_unreachable = true
 warn_unused_configs = true
 no_implicit_reexport = true
+strict-optional = true
 
 [tool.pydantic-mypy]
 init_forbid_extra = true
